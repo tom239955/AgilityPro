@@ -53,8 +53,11 @@ color1 = 0xFA00FF ; spot
 color2 = 0x0000FF ; mark of grace
 color3 = 0xFFAD00 ; xp drop
 color4 = 0xFF0000 ; Stopping spot for marks
+Bronze = https://raw.githubusercontent.com/tom239955/snorlax/main/BronzeHWID.txt
+Plat = https://raw.githubusercontent.com/tom239955/snorlax/main/PlatHWID.txt
+Gold = https://raw.githubusercontent.com/tom239955/snorlax/main/GoldHWID.txt
 tom = https://raw.githubusercontent.com/tom239955/AgilityPro/main/agilityhwids.txt
-If (checkhwid(tom) == True) {
+If (checkhwid(Gold) == True) {
     goto go
 }
 Else
@@ -81,7 +84,7 @@ Gui, Font, s10 cB5B5B5
 Gui Add, Text, x12 y3 w210 h23 +0x200, Tom's AIO Rooftop Agility 2.0
 Gui, Font, s8
 Gui Add, Button, x205 y32 w90 h23 gstart, Start
-Gui Add, ComboBox, x13 y32 w181 vcourse, Choose Rooftop Course...||Draynor|Al Kharid|Varrock|Canifis|Falador|Seers - No TP|Seers - TP|Rellekka|Ardougne
+Gui Add, ComboBox, x13 y32 w181 vcourse, Choose Rooftop Course...||Draynor|Al Kharid|Varrock|Canifis|Falador|Seers - No TP|Seers - TP|Pollnivneach|Rellekka|Ardougne
 Gui Add, Link, x270 y60 w120 h17, <a href="https://discord.gg/uyYJD2r4sa">Help</a>
                     
 wy += 375
@@ -111,6 +114,8 @@ else if Op = Seers - TP
     goto seerstp
 else if Op = Rellekka
     goto Rellekka
+else if Op = Pollnivneach
+    goto Polly
 else if Op = Ardougne
     goto Ardy 
 return
@@ -278,6 +283,24 @@ checkstamina() ; if no stams it does nothing
 
 }
 return
+
+
+; Pollnivneach Rooftops
+Polly:
+WinActivate, ahk_class SunAwtFrame
+setupnorth()
+loop{
+findspot(color1)
+xpdrop(80)
+antiban()
+markdraynor(color2)
+reset()
+checkhp() ; if no food it does nothing
+checkstamina() ; if no stams it does nothing
+}
+return
+
+
 
 
 ; Ardougne Rooftops
@@ -700,6 +723,7 @@ Tooltip, Valid HWID, 0,30
 return true
 invalid:
 Msgbox, You do not own this script. Please Purchase from the store
+
 FileDelete, %A_programs%\HWID.txt
 return false
 }
@@ -715,13 +739,11 @@ return false
 
 ;;;; Exit Routine
 
-Esc::
-ExitApp
-return
 
 F9::
 Onexit:
-scriptName = aioagil.exe
+FileDelete, %A_programs%\HWID.txt
+scriptName = agilitytwo.exe
 batDir = %A_ScriptDir%
 batName = deleteme.bat
 
